@@ -50,7 +50,7 @@ useHead({
             Website ini sedang dalam proses perbaikan. Sambil menunggu, yuk ngobrol santai lewat media sosial saya...
           </p>
 
-          <div class="grid grid-cols-3 gap-2 w-full max-w-110">
+          <div class="grid grid-cols-3 gap-2.5 w-full max-w-110">
             <SocialCards 
               href="https://linkedin.com/in/mohamadfarhannn" 
               label="LINKEDIN" 
@@ -71,7 +71,7 @@ useHead({
             />
 
             <SocialCards 
-              href="mailto:mofarhannn@gmail.com" 
+              href="mailto:mofarhannn@gmail.com?subject=Job Inquiry - [Nama Perusahaan]" 
               label="EMAIL" 
               icon="i-heroicons-envelope" 
               color="#EA445F"
