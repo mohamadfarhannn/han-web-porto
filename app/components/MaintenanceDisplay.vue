@@ -9,11 +9,11 @@ useHead({
 </script>
 
 <template>
-  <main class="h-screen bg-cream flex items-center justify-center p-6 md:p-10 relative overflow-hidden font-body">
+  <main class="min-h-dvh bg-cream flex items-center justify-center p-6 md:p-10 pb-16 md:pb-20 relative overflow-hidden font-body">
     
     <!-- Background Decor -->
-    <!-- <div class="absolute z-0 w-[300px] h-[300px] rounded-full bg-yellow opacity-15 -top-[50px] -right-[100px] animate-[pulse-dot_4s_ease-in-out_infinite]"></div>
-    <div class="absolute z-0 w-0 h-0 border-l-[150px] border-l-transparent border-r-[150px] border-r-transparent border-b-[250px] border-b-hot-pink opacity-10 -bottom-[50px] -left-[50px] rotate-[20deg]"></div> -->
+    <div class="absolute z-0 w-75 h-75 rounded-full bg-yellow opacity-15 -top-12.5 -right-25 animate-[pulse-dot_6s_ease-in-out_infinite] pointer-events-none"></div>
+    <div class="absolute z-0 w-0 h-0 border-l-100 border-l-transparent border-r-150 border-r-transparent border-b-150 border-b-hot-pink opacity-10 -bottom-2.5 -left-12.5 animate-[bounce_6s_ease-in-out_infinite] rotate-20 pointer-events-none"></div>
 
     <div class="max-w-137.5 w-full flex flex-col items-center gap-12 z-10 relative">
       
@@ -27,28 +27,57 @@ useHead({
       <!-- Main Visual / Content -->
       <div class="relative bg-white border-8 border-dark  shadow-[6px_6px_0px_var(--color-dark)] md:shadow-[10px_10px_0px_var(--color-dark)] w-full py-6 px-6 md:py-8 md:px-8 text-center rounded-xl">
         <!-- Floating decors -->
-        <div class="absolute font-heading text-[11px] py-2 px-4 border-2 border-dark shadow-[3px_3px_0px_var(--color-dark)] z-10 tracking-widest -top-3.75 left-2.5 md:-top-5 md:-left-5 bg-yellow text-dark -rotate-6">
+        <div class="absolute font-heading text-[12px] py-2 px-4 border-2 border-dark shadow-[3px_3px_0px_var(--color-dark)] z-10 tracking-widest -top-3.75 left-2.5 md:-top-5 md:-left-5 bg-hot-pink text-dark -rotate-6">
           OOPS!
         </div>
-        <div class="absolute font-heading text-[11px] py-2 px-4 border-2 border-dark shadow-[3px_3px_0px_var(--color-dark)] z-10 tracking-widest -bottom-6.25 right-2 md:-bottom-5 md:-right-5 bg-hot-pink text-dark rotate-6">
+        <div class="absolute font-heading text-[12px] py-2 px-4 border-2 border-dark shadow-[3px_3px_0px_var(--color-dark)] z-10 tracking-widest -bottom-8.5 right-2 md:-bottom-7 md:-right-5 bg-[#00FF9D] text-dark rotate-6">
           STAY TUNED!
         </div>
 
-        <div class="flex flex-col items-center gap-8">
+        <div class="flex flex-col items-center gap-6">
           <div class="w-22 h-22 bg-cream border-[3px] border-dark rounded-full flex items-center justify-center shadow-[4px_4px_0px_var(--color-dark)]">
             <Icon name="ph:hammer-fill" class="text-[44px] text-dark animate-[tool-swing_2s_ease-in-out_infinite]" />
           </div>
           
-          <h1 class="font-heading text-4xl sm:text-5xl md:text-[56px] leading-[1.05] text-dark uppercase tracking-tighter">
+          <h1 class="font-heading text-3xl sm:text-4xl md:text-[50px] leading-[1.05] text-dark uppercase tracking-tighter">
             WEBNYA LAGI
             <br />
-            MAINTENANCE.
+            MAINTENANCE
             <span class="text-hot-pink animate-[blink_1s_step-end_infinite]">_</span>
           </h1>
 
           <p class="text-[15px] leading-[1.7] text-dark/85 max-w-110 py-5 px-6 border-2 border-dashed border-dark rounded-lg bg-cream text-left">
-            Mohon bersabar ya! website ini sedang dalam proses perbaikan, Tungguin ya!
+            Website ini sedang dalam proses perbaikan. Sambil menunggu, yuk ngobrol santai lewat media sosial saya...
           </p>
+
+          <div class="grid grid-cols-3 gap-2 w-full max-w-110">
+            <SocialCards 
+              href="https://linkedin.com/in/mohamadfarhannn" 
+              label="LINKEDIN" 
+              color="#0077B5"
+              size="sm"
+            >
+              <template #icon>
+                <span class="font-heading text-[22px] text-white leading-none">in</span>
+              </template>
+            </SocialCards>
+            
+            <SocialCards 
+              href="https://github.com/mofarhannn" 
+              label="GITHUB" 
+              icon="i-simple-icons-github" 
+              color="var(--color-dark)"
+              size="sm"
+            />
+
+            <SocialCards 
+              href="mailto:mofarhannn@gmail.com" 
+              label="EMAIL" 
+              icon="i-heroicons-envelope" 
+              color="#EA445F"
+              size="sm"
+            />
+          </div>
 
           <!-- <div class="flex flex-col sm:flex-row gap-4 justify-center w-full mt-2 p-8">
             <NuxtLink to="/" class="group text-[13px] font-bold no-underline py-3.5 px-8 rounded-lg tracking-wider uppercase border-2 border-dark shadow-[4px_4px_0px_var(--color-dark)] inline-flex items-center justify-center gap-3 bg-[#00F5A0] text-dark hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0px_var(--color-dark)] transition-all duration-200">
@@ -72,7 +101,7 @@ useHead({
   </main>
 </template>
 
-<style scoped>
+<style>
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.5; transform: scale(0.8); }

@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   css: ['~/assets/main.css'],
-  modules: ['@nuxt/ui', '@nuxtjs/color-mode'],
+  modules: ['@nuxt/ui', '@nuxtjs/color-mode', '@nuxt/icon'],
   colorMode: {
     classSuffix: '',
   },
@@ -14,4 +14,9 @@ export default defineNuxtConfig({
       tailwindcss() as any,
     ],
   },
+  runtimeConfig: {
+    public: {
+      isMaintenance: process.env.NUXT_PUBLIC_IS_MAINTENANCE === 'true'
+    }
+  }
 })
