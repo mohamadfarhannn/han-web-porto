@@ -1,1 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --color-cream: #FFF9EB;
+  --color-dark: #252525;
+  --color-hot-pink: #FF3B7F;
+  --color-yellow: #FFD600;
+  --color-coral: #FF8A80;
+  --color-salmon: #FFA07A;
+  --color-soft-pink: #FFB6C1;
+  --color-purple: #7B5EA7;
+  --color-light-pink: #FFE4E9;
+
+  --font-heading: 'Archivo Black', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
+}
+
+/* Base reset */
+@layer base {
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-cream);
+  color: var(--color-dark);
+  overflow-x: hidden;
+}
+
+/* Heading font */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* Selection style */
+::selection {
+  background-color: var(--color-hot-pink);
+  color: white;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-dark);
+  border-radius: 4px;
+}
