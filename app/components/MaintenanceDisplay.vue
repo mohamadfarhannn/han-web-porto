@@ -63,7 +63,7 @@ useHead({
             </SocialCards>
             
             <SocialCards 
-              href="https://github.com/mofarhannn" 
+              href="https://github.com/mohamadfarhannn"
               label="GITHUB" 
               icon="i-simple-icons-github" 
               color="var(--color-dark)"
