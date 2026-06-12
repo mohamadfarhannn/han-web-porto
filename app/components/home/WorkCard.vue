@@ -59,9 +59,9 @@
           </div>
 
           <div class="mt-8">
-            <a href="#work" class="bg-[#ff9088] border-[3px] border-black px-6 py-3 md:px-8 md:py-4 font-black text-sm md:text-base uppercase tracking-widest shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all inline-block text-black no-underline">
+            <NeoButton :to="projectLink" target="_blank" rel="noopener noreferrer" color="pink">
               VIEW PROJECT
-            </a>
+            </NeoButton>
           </div>
           
         </div>
@@ -154,6 +154,10 @@ defineProps({
   rotation: {
     type: Number,
     default: 0
+  },
+  projectLink: {
+    type: String,
+    default: '#'
   }
 })
 </script>

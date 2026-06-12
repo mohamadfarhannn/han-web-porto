@@ -38,7 +38,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="min-h-screen flex items-center justify-center pt-8 sm:pt-16 xl:pt-4 pb-8 px-4 sm:px-8 lg:px-12 font-sans mb-0">
+  <section class="min-h-screen flex items-center justify-center pt-12 pb-28 sm:pt-16 sm:pb-30 lg:pt-28 xl:pt-20 px-4 sm:px-8 lg:px-12 font-sans">
     <div class="max-w-300 w-full mx-auto flex flex-col lg:flex-row justify-center items-center gap-16 lg:gap-8">
       
       <!-- Left Column -->
@@ -71,14 +71,14 @@ onUnmounted(() => {
         </h1>
 
         <!-- Description Box -->
-        <div class="bg-white border-4 border-black p-5 lg:p-6 max-w-full md:max-w-137.5 mb-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative z-10 text-left">
+        <div class="bg-white border-4 border-black p-5 lg:p-6 max-w-full md:max-w-137.5 mb-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative z-10 text-center mx-auto lg:mx-0">
           <p class="text-base md:text-lg lg:text-xl font-bold leading-relaxed text-black" style="font-family: var(--font-body, inherit);">
            I specialize in building full-stack web applications using Vue js, React js and Node.js, with a strong focus on responsive interfaces and creating RESTful APIs.
           </p>
         </div>
 
         <!-- Buttons -->
-        <div class="flex flex-col sm:flex-row gap-4 md:gap-6 w-full sm:w-auto relative z-10">
+        <div class="flex flex-col sm:flex-row gap-4 md:gap-6 w-full sm:w-auto relative z-10 mx-auto lg:mx-0">
           <NeoButton to="#work" color="pink">
             VIEW WORK
           </NeoButton>

@@ -15,7 +15,8 @@ const projects = ref([
     tags: ['NODE.JS', 'EXPRESS', 'POSTGRESQL', 'PRISMA', 'JWT'],
     reverse: false,
     projectNumber: '01',
-    rotation: -0.5
+    rotation: -0.5,
+    link: 'https://github.com/mohamadfarhannn/server-socmedjs'
   },
   {
     title: 'OFFSTREET PARKING DASHBOARD',
@@ -25,17 +26,19 @@ const projects = ref([
     tags: ['VUE.JS', 'TAILWIND CSS', 'REST API', 'DASHBOARD'],
     reverse: true,
     projectNumber: '02',
-    rotation: 0.5
+    rotation: 0.5,
+    link: 'https://magang-app.juru.id/login'
   },
   {
     title: 'ONSTREET PARKING DASHBOARD',
-    description: 'A full-featured Instagram-clone RESTful API built from scratch with Node.js & Express.js. Includes JWT authentication with OTP email verification, Cloudinary image optimization, Prisma ORM with PostgreSQL, and paginated endpoints for posts, comments, likes, and user profiles.',
+    description: 'An integrated on-street parking management system serving as a central control hub for transactions, member registrations, and field device activation. Collaborated with the frontend team to execute a complete UI revamp. Focused on building reusable components and decoupling business logic from the presentation layer to deliver a responsive, scalable, and user centric platform.',
     imageSrc: '/images/onstreet-1.webp',
     frameBg: '#DBF5F0',
     tags: ['VUE.JS', 'TAILWIND CSS', 'REST API', 'DASHBOARD'],
     reverse: false,
     projectNumber: '03',
-    rotation: 0.5
+    rotation: 0.5,
+    link: 'https://www.figma.com/proto/AOFhKqBeuephhRywJKrR7u/JURU-On-Street--Copy-?node-id=147-9210&p=f&t=mZtuEWpCtRtYhA8I-1&scaling=scale-down&content-scaling=fixed&page-id=3%3A424&starting-point-node-id=147%3A9210'
   },
 ])
 
@@ -135,6 +138,7 @@ const getCardAnimationClass = (index) => {
             :project-number="project.projectNumber"
             :sticky-top="100 + (index * 20)"
             :rotation="project.rotation"
+            :project-link="project.link"
           />
         </div>
       </div>
