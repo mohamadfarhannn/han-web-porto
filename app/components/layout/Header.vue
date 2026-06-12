@@ -38,7 +38,7 @@ watch(
       <!-- Logo -->
       <NuxtLink to="/" class="flex items-center gap-2 md:gap-3 no-underline group shrink-0 relative z-50">
         <div class="w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center">
-          <img src="/images/logo-mf-black.png" alt="MF Logo" class="w-full h-auto group-hover:rotate-12 transition-transform duration-300" />
+          <img src="/images/logo-mf-black.png" alt="MF Logo" class="w-full h-auto group-hover:rotate-12 transition-transform duration-300" width="40" height="40" />
         </div>
         <span class="font-heading text-lg lg:text-xl text-dark tracking-tighter">mofarhannn</span>
       </NuxtLink>
@@ -69,6 +69,7 @@ watch(
         <!-- Mobile Menu Toggle (Re-unified) -->
         <button
           @click="toggleMenu"
+          aria-label="Toggle Navigation Menu"
           class="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 border-2 border-dark rounded-lg bg-yellow shadow-[2px_2px_0px_var(--color-dark)] transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
         >
           <span 

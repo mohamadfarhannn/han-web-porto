@@ -20,7 +20,7 @@ const scrollToTop = () => {
       <div class="flex flex-col items-center md:items-start gap-2 shrink-0">
         <NuxtLink to="/" class="flex items-center gap-3 no-underline group">
           <div class="w-8 h-8 flex items-center justify-center">
-            <img src="/images/logo-mf-black.png" alt="MF Logo" class="w-full h-auto group-hover:rotate-12 transition-transform duration-300" />
+            <img src="/images/logo-mf-black.png" alt="MF Logo" class="w-full h-auto group-hover:rotate-12 transition-transform duration-300" width="32" height="32" loading="lazy" />
           </div>
           <span class="font-heading text-lg lg:text-xl text-dark tracking-tighter">mofarhannn</span>
         </NuxtLink>

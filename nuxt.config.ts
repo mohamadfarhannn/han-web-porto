@@ -4,6 +4,13 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'en'
+      }
+    }
+  },
   css: ['~/assets/main.css'],
   modules: ['@nuxt/ui', '@nuxtjs/color-mode', '@nuxt/icon'],
   colorMode: {

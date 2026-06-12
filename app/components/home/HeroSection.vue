@@ -112,7 +112,7 @@ onUnmounted(() => {
             <div class="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[75%] aspect-square bg-cream rounded-full z-0"></div>
             
             <!-- Avatar Image -->
-            <img src="/images/ava-img.webp" alt="Avatar" class="relative z-10 w-[135%] max-w-none h-auto object-cover" />
+            <img src="/images/ava-img.webp" alt="Avatar" class="relative z-10 w-[135%] max-w-none h-auto object-cover" width="400" height="400" />
           </div>
           
           <!-- "HIRE ME!" Sticker -->
