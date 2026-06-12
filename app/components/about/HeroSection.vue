@@ -23,9 +23,9 @@ onMounted(() => {
       >
         
         <!-- Heading -->
-        <h1 class="font-normal text-[50px] sm:text-[50px] md:text-[65px] leading-[1] text-black mb-8" style="font-family: var(--font-heading, inherit);">
+        <h1 class="font-normal text-[50px] sm:text-[50px] md:text-[65px] leading-none text-black mb-8" style="font-family: var(--font-heading, inherit);">
           WHO IS<br />
-          <span class="inline-block bg-yellow border-[4px] border-black px-5 py-2 mt-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <span class="inline-block bg-yellow border-4 border-black px-5 py-2 mt-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             FARHAN?
           </span>
         </h1>
@@ -79,9 +79,9 @@ onMounted(() => {
               
               <!-- Colored Dots -->
               <div class="flex gap-1.5 md:gap-2">
-                <div class="w-3.5 h-3.5 md:w-4 md:h-4 rounded-full border-[2px] border-black bg-[#ff9088]"></div>
-                <div class="w-3.5 h-3.5 md:w-4 md:h-4 rounded-full border-[2px] border-black bg-[#aaaaff]"></div>
-                <div class="w-3.5 h-3.5 md:w-4 md:h-4 rounded-full border-[2px] border-black bg-[#5ae2c7]"></div>
+                <div class="w-3.5 h-3.5 md:w-4 md:h-4 rounded-full border-2 border-black bg-[#ff9088]"></div>
+                <div class="w-3.5 h-3.5 md:w-4 md:h-4 rounded-full border-2 border-black bg-[#aaaaff]"></div>
+                <div class="w-3.5 h-3.5 md:w-4 md:h-4 rounded-full border-2 border-black bg-[#5ae2c7]"></div>
               </div>
             </div>
 
