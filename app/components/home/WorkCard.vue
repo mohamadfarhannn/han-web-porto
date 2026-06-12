@@ -70,8 +70,11 @@
   </div>
 
   <!-- VERTICAL LAYOUT -->
-  <div v-else
-    class="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col h-full hover:-translate-y-2 hover:-translate-x-1 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 cursor-pointer"
+  <NuxtLink v-else
+    :to="projectLink"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col h-full hover:-translate-y-2 hover:-translate-x-1 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 cursor-pointer focus:outline-none"
   >
     <!-- Top Thumbnail -->
     <div 
@@ -109,7 +112,7 @@
         </span>
       </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <script setup>
