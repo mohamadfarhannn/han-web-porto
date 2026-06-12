@@ -22,6 +22,9 @@
                 :src="imageSrc" 
                 :alt="title" 
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 aspect-square object-top" 
+                width="600"
+                height="600"
+                loading="lazy"
               />
             </div>
           </div>
@@ -86,6 +89,9 @@
           :src="imageSrc" 
           :alt="title" 
           class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 aspect-video object-top" 
+          width="600"
+          height="337"
+          loading="lazy"
         />
       </div>
     </div>

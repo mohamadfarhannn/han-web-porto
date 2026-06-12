@@ -13,7 +13,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="pt-12 pb-30 md:pt-16 px-4 sm:px-8 lg:px-12 font-sans min-h-[85vh] flex items-center relative overflow-hidden">
+  <section class="pt-4 pb-16 md:pt-16 px-4 sm:px-8 lg:px-12 font-sans min-h-[85vh] flex items-center relative overflow-hidden">
     <div class="max-w-300 w-full mx-auto flex flex-col lg:flex-row justify-between items-center gap-20 lg:gap-12">
       
       <!-- Left Column: Content -->
@@ -70,6 +70,8 @@ onMounted(() => {
                 src="/images/profile.webp" 
                 alt="Farhan Profile" 
                 class="w-full h-full object-cover object-top transition-all duration-500 group-hover:scale-105" 
+                width="400"
+                height="400"
               />
             </div>
             
