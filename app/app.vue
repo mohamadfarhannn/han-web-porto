@@ -1,12 +1,12 @@
 <script setup lang="ts">
-const config = useRuntimeConfig()
+const config = useRuntimeConfig();
 
-const isMaintenance = config.public.isMaintenance
+const isMaintenance = config.public.isMaintenance;
 </script>
 
 <template>
   <NuxtRouteAnnouncer />
-  
+
   <!-- Jika maintenance, tampilkan langsung tanpa NuxtLayout agar Header/Footer hilang -->
   <MaintenanceDisplay v-if="isMaintenance" />
 

@@ -1,3 +1,42 @@
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const props = defineProps({
+  experiences: {
+    type: Array,
+    required: true,
+    default: () => []
+  }
+})
+
+const itemRefs = ref([])
+const visibleItems = ref([])
+
+let observer = null
+
+onMounted(() => {
+  visibleItems.value = Array(props.experiences.length).fill(false)
+  
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const index = Number(entry.target.dataset.index)
+        setTimeout(() => { visibleItems.value[index] = true }, 150)
+        observer.unobserve(entry.target)
+      }
+    })
+  }, { threshold: 0.1 })
+
+  itemRefs.value.forEach(item => {
+    if (item) observer.observe(item)
+  })
+})
+
+onUnmounted(() => {
+  if (observer) observer.disconnect()
+})
+</script>
+
 <template>
   <div class="relative pl-8 md:pl-10">
     <!-- Vertical Line -->
@@ -7,8 +46,13 @@
     <div 
       v-for="(item, index) in experiences" 
       :key="index"
-      class="relative"
-      :class="{ 'mb-12': index !== experiences.length - 1 }"
+      class="relative transition-all duration-700 ease-out"
+      :class="[
+        { 'mb-12': index !== experiences.length - 1 },
+        visibleItems[index] ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
+      ]"
+      :ref="el => { if (el) itemRefs[index] = el }"
+      :data-index="index"
     >
       <!-- Bullet Point -->
       <div 
@@ -33,12 +77,4 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  experiences: {
-    type: Array,
-    required: true,
-    default: () => []
-  }
-})
-</script>
+
