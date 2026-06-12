@@ -71,7 +71,7 @@ onUnmounted(() => {
         </h1>
 
         <!-- Description Box -->
-        <div class="bg-white border-4 border-black p-5 lg:p-6 max-w-[100%] md:max-w-137.5 mb-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative z-10 text-left">
+        <div class="bg-white border-4 border-black p-5 lg:p-6 max-w-full md:max-w-137.5 mb-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative z-10 text-left">
           <p class="text-base md:text-lg lg:text-xl font-bold leading-relaxed text-black" style="font-family: var(--font-body, inherit);">
            I specialize in building full-stack web applications using Vue js, React js and Node.js, with a strong focus on responsive interfaces and creating RESTful APIs.
           </p>
