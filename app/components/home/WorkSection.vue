@@ -6,38 +6,9 @@ const sectionRef = ref(null)
 const cardRefs = ref([])
 const visibleCards = ref([])
 
-const projects = ref([
-  {
-    title: 'DAILYGRIND',
-    description: 'A full-featured Instagram-clone RESTful API built from scratch with Node.js & Express.js. Includes JWT authentication with OTP email verification, Cloudinary image optimization, Prisma ORM with PostgreSQL, and paginated endpoints for posts, comments, likes, and user profiles.',
-    imageSrc: '/images/dailygrind-1.webp',
-    frameBg: '#FEDDDB',
-    tags: ['NODE.JS', 'EXPRESS', 'POSTGRESQL', 'PRISMA', 'JWT'],
-    reverse: false,
-    projectNumber: '01',
-    rotation: -0.5
-  },
-  {
-    title: 'OFFSTREET PARKING DASHBOARD',
-    description: 'A responsive parking management dashboard featuring real-time slot availability, booking management, and interactive data visualization. Built with a modern Vue.js frontend connected to a robust backend API with role-based access control.',
-    imageSrc: '/images/offstreet-1.webp',
-    frameBg: '#E3E3FF',
-    tags: ['VUE.JS', 'TAILWIND CSS', 'REST API', 'DASHBOARD'],
-    reverse: true,
-    projectNumber: '02',
-    rotation: 0.5
-  },
-  {
-    title: 'ONSTREET PARKING DASHBOARD',
-    description: 'A full-featured Instagram-clone RESTful API built from scratch with Node.js & Express.js. Includes JWT authentication with OTP email verification, Cloudinary image optimization, Prisma ORM with PostgreSQL, and paginated endpoints for posts, comments, likes, and user profiles.',
-    imageSrc: '/images/onstreet-1.webp',
-    frameBg: '#DBF5F0',
-    tags: ['VUE.JS', 'TAILWIND CSS', 'REST API', 'DASHBOARD'],
-    reverse: false,
-    projectNumber: '03',
-    rotation: 0.5
-  },
-])
+import { projectsData } from '~/utils/data'
+
+const projects = ref(projectsData.slice(0, 3))
 
 let observer = null
 
@@ -135,6 +106,7 @@ const getCardAnimationClass = (index) => {
             :project-number="project.projectNumber"
             :sticky-top="100 + (index * 20)"
             :rotation="project.rotation"
+            :project-link="project.link"
           />
         </div>
       </div>

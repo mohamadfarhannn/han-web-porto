@@ -59,9 +59,9 @@
           </div>
 
           <div class="mt-8">
-            <a href="#work" class="bg-[#ff9088] border-[3px] border-black px-6 py-3 md:px-8 md:py-4 font-black text-sm md:text-base uppercase tracking-widest shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all inline-block text-black no-underline">
+            <NeoButton :to="projectLink" target="_blank" rel="noopener noreferrer" color="pink">
               VIEW PROJECT
-            </a>
+            </NeoButton>
           </div>
           
         </div>
@@ -70,8 +70,11 @@
   </div>
 
   <!-- VERTICAL LAYOUT -->
-  <div v-else
-    class="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col h-full hover:-translate-y-2 hover:-translate-x-1 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 cursor-pointer"
+  <NuxtLink v-else
+    :to="projectLink"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col h-full hover:-translate-y-2 hover:-translate-x-1 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 cursor-pointer focus:outline-none"
   >
     <!-- Top Thumbnail -->
     <div 
@@ -109,7 +112,7 @@
         </span>
       </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <script setup>
@@ -154,6 +157,10 @@ defineProps({
   rotation: {
     type: Number,
     default: 0
+  },
+  projectLink: {
+    type: String,
+    default: '#'
   }
 })
 </script>
