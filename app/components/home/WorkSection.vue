@@ -1,267 +1,157 @@
 <script setup>
-const projects = [
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const headerVisible = ref(false)
+const sectionRef = ref(null)
+const cardRefs = ref([])
+const visibleCards = ref([])
+
+const projects = ref([
   {
-    image: '/images/project-datapulse.png',
-    title: 'DATAPULSE DASH',
-    description: 'Enterprise-grade analytics dashboard processing millions of data rows in real-time with custom visualizations and reports.',
-    tags: ['REACT', 'D3.JS', 'TS'],
+    title: 'DAILYGRIND',
+    description: 'A full-featured Instagram-clone RESTful API built from scratch with Node.js & Express.js. Includes JWT authentication with OTP email verification, Cloudinary image optimization, Prisma ORM with PostgreSQL, and paginated endpoints for posts, comments, likes, and user profiles.',
+    imageSrc: '/images/dailygrind-1.webp',
+    frameBg: '#FEDDDB',
+    tags: ['NODE.JS', 'EXPRESS', 'POSTGRESQL', 'PRISMA', 'JWT'],
+    reverse: false,
+    projectNumber: '01',
+    rotation: -0.5
   },
   {
-    image: '/images/project-nxtgen.png',
-    title: 'NXTGEN CORE',
-    description: 'A complete rewrite and re-architecture of a legacy monolith to a modern microservice, event-driven system.',
-    tags: ['NUXT 3', 'VUETIFY', 'API'],
+    title: 'OFFSTREET PARKING DASHBOARD',
+    description: 'A responsive parking management dashboard featuring real-time slot availability, booking management, and interactive data visualization. Built with a modern Vue.js frontend connected to a robust backend API with role-based access control.',
+    imageSrc: '/images/offstreet-1.webp',
+    frameBg: '#E3E3FF',
+    tags: ['VUE.JS', 'TAILWIND CSS', 'REST API', 'DASHBOARD'],
+    reverse: true,
+    projectNumber: '02',
+    rotation: 0.5
   },
   {
-    image: '/images/project-studiox.png',
-    title: 'STUDIO X',
-    description: 'Interactive portfolio for a creative agency, featuring WebGL experiments and custom physics-based scroll animations.',
-    tags: ['THREE.JS', 'GSAP'],
+    title: 'ONSTREET PARKING DASHBOARD',
+    description: 'A full-featured Instagram-clone RESTful API built from scratch with Node.js & Express.js. Includes JWT authentication with OTP email verification, Cloudinary image optimization, Prisma ORM with PostgreSQL, and paginated endpoints for posts, comments, likes, and user profiles.',
+    imageSrc: '/images/onstreet-1.webp',
+    frameBg: '#DBF5F0',
+    tags: ['VUE.JS', 'TAILWIND CSS', 'REST API', 'DASHBOARD'],
+    reverse: false,
+    projectNumber: '03',
+    rotation: 0.5
   },
-]
+])
+
+let observer = null
+
+onMounted(() => {
+  visibleCards.value = Array(projects.value.length).fill(false)
+  
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        if (entry.target === sectionRef.value) {
+          setTimeout(() => { headerVisible.value = true }, 100)
+          observer.unobserve(sectionRef.value)
+        } else if (entry.target.dataset.index !== undefined) {
+          const idx = Number(entry.target.dataset.index)
+          setTimeout(() => { visibleCards.value[idx] = true }, 150)
+          observer.unobserve(entry.target)
+        }
+      }
+    })
+  }, { threshold: 0.1 })
+
+  if (sectionRef.value) {
+    observer.observe(sectionRef.value)
+  } else {
+    headerVisible.value = true
+  }
+
+  cardRefs.value.forEach(card => {
+    if (card) observer.observe(card)
+  })
+})
+
+onUnmounted(() => {
+  if (observer) observer.disconnect()
+})
+
+const getCardAnimationClass = (index) => {
+  if (visibleCards.value[index]) {
+    return 'opacity-100 left-0'
+  } else {
+    // index 0 -> kanan ke kiri (starts from right, so left is positive)
+    // index 1 -> kiri ke kanan (starts from left, so left is negative)
+    return index % 2 === 0 
+      ? 'opacity-0 left-24 md:left-40' 
+      : 'opacity-0 -left-24 md:-left-40'
+  }
+}
 </script>
 
 <template>
-  <section class="work" id="work">
-    <!-- Section Header -->
-    <div class="work-header">
-      <div class="section-title-wrapper">
-        <span class="section-square"></span>
-        <span class="section-line"></span>
-        <div class="section-title-badge">
-          <h2 class="section-title">SELECTED WORK</h2>
+  <section id="work" ref="sectionRef" class="py-20 px-4 sm:px-8 lg:px-12 pt-34 font-sans overflow-hidden">
+    <div class="max-w-300 w-full mx-auto">
+      
+      <!-- Header Section -->
+      <div 
+        class="flex items-center mb-16 md:mb-24 w-full transition-all duration-700 ease-out"
+        :class="headerVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'"
+      >
+        <!-- Small Icon Box -->
+        <div class="border-4 border-black bg-white w-12 h-12 md:w-14 md:h-14 hidden sm:flex items-center justify-center shrink-0 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] z-10 relative">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter" class="w-6 h-6 md:w-8 md:h-8">
+            <path d="M3 4v16h18V8H11L9 4H3z"></path>
+            <path d="M3 10h18"></path>
+          </svg>
+        </div>
+        
+        <!-- Connecting Line -->
+        <div class="grow h-1 bg-black ml-6 mr-6 hidden sm:block z-0 relative"></div>
+        
+        <!-- Title Box -->
+        <div class="relative z-10 bg-yellow border-4 border-black px-6 md:px-10 py-3 md:py-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rotate-2 shrink-0">
+          <h2 class="font-normal text-lg sm:text-xl md:text-2xl uppercase tracking-widest text-black" style="font-family: var(--font-heading, inherit);">
+            SELECTED WORK
+          </h2>
         </div>
       </div>
-    </div>
 
-    <!-- Projects Grid -->
-    <div class="work-grid">
-      <article
-        v-for="(project, i) in projects"
-        :key="i"
-        class="project-card"
-      >
-        <div class="project-image-wrapper">
-          <img :src="project.image" :alt="project.title" class="project-image" />
+      <!-- Sticky Card Stack Container -->
+      <div class="relative">
+        <div 
+          v-for="(project, index) in projects" 
+          :key="project.title"
+          class="mb-12 md:mb-16 last:mb-0 relative transition-all duration-1000 ease-out"
+          :ref="el => { if (el) cardRefs[index] = el }"
+          :data-index="index"
+          :class="getCardAnimationClass(index)"
+        >
+          <HomeWorkCard 
+            :title="project.title"
+            :description="project.description"
+            :image-src="project.imageSrc"
+            :frame-bg="project.frameBg"
+            :tags="project.tags"
+            :reverse="project.reverse"
+            :project-number="project.projectNumber"
+            :sticky-top="100 + (index * 20)"
+            :rotation="project.rotation"
+          />
         </div>
-        <div class="project-info">
-          <h3 class="project-title">{{ project.title }}</h3>
-          <p class="project-desc">{{ project.description }}</p>
-          <div class="project-tags">
-            <span
-              v-for="tag in project.tags"
-              :key="tag"
-              class="project-tag"
-            >
-              {{ tag }}
-            </span>
-          </div>
-        </div>
-      </article>
-    </div>
+      </div>
 
-    <!-- See All Button -->
-    <div class="work-cta">
-      <NuxtLink to="/projects" class="see-all-btn">
-        SEE ALL →
-      </NuxtLink>
-    </div>
+      <!-- See All Button -->
+      <div class="mt-20 flex justify-center">
+        <NeoButton to="/projects" color="cyan" size="lg">
+          SEE ALL WORKS
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter" class="w-5 h-5 md:w-6 md:h-6">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </NeoButton>
+      </div>
 
-    <!-- Bottom divider -->
-    <div class="section-divider">
-      <span class="divider-square divider-square--left"></span>
-      <span class="divider-square divider-square--right"></span>
     </div>
   </section>
 </template>
 
-<style scoped>
-.work {
-  background-color: var(--color-cream);
-}
 
-/* Section Header */
-.work-header {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 60px 24px 40px;
-}
-
-.section-title-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.section-square {
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-dark);
-  flex-shrink: 0;
-}
-
-.section-line {
-  flex: 1;
-  height: 2px;
-  border-top: 2px dashed var(--color-dark);
-}
-
-.section-title-badge {
-  background-color: var(--color-yellow);
-  padding: 8px 20px;
-  border: 2px solid var(--color-dark);
-  border-radius: 6px;
-  box-shadow: 3px 3px 0px var(--color-dark);
-  transform: rotate(-1deg);
-}
-
-.section-title {
-  font-family: var(--font-heading);
-  font-size: clamp(24px, 3vw, 32px);
-  color: var(--color-dark);
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-/* Grid */
-.work-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px 40px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-/* Card */
-.project-card {
-  border: 2px solid var(--color-dark);
-  border-radius: 12px;
-  overflow: hidden;
-  background-color: white;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 4px 4px 0px var(--color-dark);
-}
-
-.project-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px var(--color-dark);
-}
-
-.project-image-wrapper {
-  width: 100%;
-  height: 180px;
-  overflow: hidden;
-  border-bottom: 2px solid var(--color-dark);
-}
-
-.project-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.project-card:hover .project-image {
-  transform: scale(1.05);
-}
-
-.project-info {
-  padding: 20px;
-}
-
-.project-title {
-  font-family: var(--font-heading);
-  font-size: 16px;
-  color: var(--color-dark);
-  margin-bottom: 8px;
-  letter-spacing: 0.5px;
-}
-
-.project-desc {
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--color-dark);
-  opacity: 0.7;
-  margin-bottom: 16px;
-}
-
-.project-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.project-tag {
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border: 2px solid var(--color-dark);
-  border-radius: 20px;
-  letter-spacing: 0.5px;
-  color: var(--color-dark);
-  background-color: var(--color-cream);
-}
-
-/* CTA */
-.work-cta {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px 60px;
-  display: flex;
-  justify-content: center;
-}
-
-.see-all-btn {
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  color: var(--color-dark);
-  padding: 12px 32px;
-  border: 2px solid var(--color-dark);
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 3px 3px 0px var(--color-dark);
-  transition: all 0.2s ease;
-  letter-spacing: 0.5px;
-}
-
-.see-all-btn:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px var(--color-dark);
-}
-
-/* Divider */
-.section-divider {
-  position: relative;
-  border-top: 2px dashed var(--color-dark);
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.divider-square {
-  position: absolute;
-  top: -5px;
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-dark);
-}
-
-.divider-square--left { left: 0; }
-.divider-square--right { right: 0; }
-
-/* Mobile */
-@media (max-width: 768px) {
-  .work-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  .work-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-</style>

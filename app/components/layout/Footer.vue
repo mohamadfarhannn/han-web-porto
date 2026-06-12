@@ -1,96 +1,47 @@
-<script setup>
+<script setup lang="ts">
+const socialLinks = [
+  { name: 'GITHUB', url: 'https://github.com/mohamadfarhannn' },
+  { name: 'LINKEDIN', url: 'https://linkedin.com/in/mohamadfarhannn' },
+  { name: 'EMAIL', url: 'mailto:mofarhannn@gmail.com' }
+]
 </script>
 
 <template>
-  <footer class="footer">
-    <div class="footer-inner">
+  <footer class="bg-yellow border-t-3 md:border-t-4 border-dark py-8 px-6 md:px-12 flex justify-center">
+    <div class="max-w-300 w-full flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4">
+      
       <!-- Logo -->
-      <div class="footer-logo">
-        <img src="/images/logo-mf-black.png" alt="MF Logo" class="logo-img" />
-        <span class="logo-text">mofarhannn</span>
-      </div>
+      <NuxtLink to="/" class="flex items-center gap-3 no-underline group shrink-0">
+        <div class="w-8 h-8 flex items-center justify-center">
+          <img src="/images/logo-mf-black.png" alt="MF Logo" class="w-full h-auto group-hover:rotate-12 transition-transform duration-300" />
+        </div>
+        <span class="font-heading text-lg lg:text-xl text-dark tracking-tighter">mofarhannn</span>
+      </NuxtLink>
 
-      <!-- Links -->
-      <nav class="footer-links">
-        <a href="https://github.com/mofarhannn" target="_blank" class="footer-link">GITHUB</a>
-        <a href="https://linkedin.com/in/mofarhannn" target="_blank" class="footer-link">LINKEDIN</a>
-        <a href="mailto:hello@mofarhannn.com" class="footer-link">EMAIL</a>
+      <!-- Nav Links -->
+      <nav class="flex flex-wrap justify-center items-center gap-6 md:gap-10">
+        <a 
+          v-for="link in socialLinks" 
+          :key="link.name"
+          :href="link.url" 
+          target="_blank" 
+          class="font-heading text-[13px] tracking-widest text-dark no-underline hover:underline decoration-2 underline-offset-4 transition-all"
+        >
+          {{ link.name }}
+        </a>
       </nav>
 
       <!-- Copyright -->
-      <p class="footer-copy">&copy; 2026 MOFARHANNN.</p>
+      <p class="font-heading text-[12px] md:text-[13px] tracking-widest text-dark uppercase opacity-90">
+        &copy; 2026 MOFARHANNN.
+      </p>
     </div>
   </footer>
 </template>
 
 <style scoped>
-.footer {
-  background-color: var(--color-dark);
-  color: var(--color-cream);
-  border-top: 2px dashed var(--color-dark);
-}
-
-.footer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.footer-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo-img {
-  width: 28px;
-  height: auto;
-  filter: brightness(0) invert(1);
-}
-
-.logo-text {
-  font-family: var(--font-heading);
-  font-size: 15px;
-  color: var(--color-cream);
-}
-
-.footer-links {
-  display: flex;
-  gap: 24px;
-}
-
-.footer-link {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--color-cream);
-  text-decoration: none;
-  letter-spacing: 1px;
-  opacity: 0.7;
-  transition: opacity 0.2s ease;
-}
-
-.footer-link:hover {
-  opacity: 1;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-.footer-copy {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  opacity: 0.5;
-}
-
-@media (max-width: 768px) {
-  .footer-inner {
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
-  }
+/* Transisi halus untuk link */
+a {
+  transition: all 0.2s ease-in-out;
 }
 </style>

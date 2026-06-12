@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const form = ref({
   name: '',
@@ -10,389 +10,233 @@ const form = ref({
 
 const isSubmitting = ref(false)
 
+const toast = ref({
+  show: false,
+  message: '',
+  type: 'success'
+})
+
+const showToast = (message, type = 'success') => {
+  toast.value = { show: true, message, type }
+  setTimeout(() => {
+    toast.value.show = false
+  }, 3000)
+}
+
 const handleSubmit = () => {
   isSubmitting.value = true
   // Simulate submission
   setTimeout(() => {
     isSubmitting.value = false
     form.value = { name: '', email: '', subject: '', message: '' }
-    alert('Message sent! 🎉')
+    showToast('Message sent!', 'success')
   }, 1500)
 }
+
+const sectionRef = ref(null)
+const headerVisible = ref(false)
+const formVisible = ref(false)
+const rightVisible = ref(false)
+
+let observer = null
+
+onMounted(() => {
+  observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      setTimeout(() => { headerVisible.value = true }, 100)
+      setTimeout(() => { formVisible.value = true }, 300)
+      setTimeout(() => { rightVisible.value = true }, 500)
+      if (sectionRef.value) observer.unobserve(sectionRef.value)
+    }
+  }, { threshold: 0.1 })
+  
+  if (sectionRef.value) {
+    observer.observe(sectionRef.value)
+  } else {
+    headerVisible.value = true
+    formVisible.value = true
+    rightVisible.value = true
+  }
+})
+
+onUnmounted(() => {
+  if (observer) observer.disconnect()
+})
 </script>
 
 <template>
-  <section class="contact" id="contact">
-    <!-- Section Header -->
-    <div class="contact-header">
-      <div class="section-title-wrapper">
-        <div class="section-title-badge">
-          <span class="badge-text">DROP A LINE</span>
+  <section id="contact" ref="sectionRef" class="py-20 px-4 sm:px-8 lg:px-12 pt-34 font-sans bg-amber-100 relative z-10 overflow-hidden">
+    <div class="max-w-300 w-full mx-auto">
+      
+      <!-- Section Header -->
+      <div 
+        class="flex items-center mb-16 md:mb-20 w-full transition-all duration-700 ease-out"
+        :class="headerVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'"
+      >
+        <!-- Title Box -->
+        <div class="relative z-10 bg-yellow border-4 border-black px-6 md:px-8 py-3 md:py-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] -rotate-2 shrink-0">
+          <h2 class="font-normal text-lg sm:text-xl md:text-2xl uppercase tracking-widest text-black" style="font-family: var(--font-heading, inherit);">
+            SAY HELLO!
+          </h2>
         </div>
-        <span class="section-line"></span>
-        <span class="section-square"></span>
+        
+        <!-- Connecting Line -->
+        <div class="grow h-1 bg-black mx-4 md:mx-6 hidden sm:block z-0 relative"></div>
+        
+        <!-- Small Icon Box -->
+        <div class="border-4 border-black bg-white w-12 h-12 md:w-14 md:h-14 hidden sm:flex items-center justify-center shrink-0 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] z-10 relative">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter" class="w-6 h-6 md:w-8 md:h-8">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </div>
       </div>
-      <h2 class="contact-heading">SAY HELLO!</h2>
-    </div>
 
-    <!-- Content -->
-    <div class="contact-content">
-      <!-- Left - Form -->
-      <div class="contact-form-wrapper">
-        <p class="contact-intro">
-          Got a project in mind, a crazy idea, or just want to chat about the latest
-          web tech? Fill out the form below and let's make something loud together.
-        </p>
-
-        <form @submit.prevent="handleSubmit" class="contact-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">YOUR NAME</label>
-              <input
-                v-model="form.name"
-                type="text"
-                placeholder="John Doe"
-                class="form-input"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label class="form-label">YOUR EMAIL</label>
-              <input
-                v-model="form.email"
-                type="email"
-                placeholder="john@example.com"
-                class="form-input"
-                required
-              />
-            </div>
+      <!-- Main Layout -->
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-8 xl:gap-12 items-start">
+        
+        <!-- Left: Form Container -->
+        <div 
+          class="w-full lg:w-[60%] xl:w-[65%] relative transition-all duration-700 ease-out"
+          :class="formVisible ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'"
+        >
+          <!-- Drop a Line Badge -->
+          <div class="absolute -top-4 -left-4 md:-top-5 md:-left-6 bg-[#5ae2c7] border-[3px] border-black px-3 py-1 md:px-4 md:py-2 font-black text-xs md:text-sm uppercase tracking-wider -rotate-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-20">
+            Let's get in touch
           </div>
 
-          <div class="form-group">
-            <label class="form-label">SUBJECT</label>
-            <input
-              v-model="form.subject"
-              type="text"
-              placeholder="What's this about?"
-              class="form-input"
-              required
+          <div class="bg-white border-4 border-black p-6 md:p-10 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] relative z-10">
+            
+            <div class="flex items-center justify-center mb-8 md:mb-10">
+              <p class="font-semibold text-sm md:text-base leading-relaxed text-black max-w-sm text-center">
+                Feel free to reach out for collaborations, project inquiries, or just to say hello.
+              </p>
+            </div>
+
+            <form @submit.prevent="handleSubmit" class="flex flex-col gap-6">
+              
+              <!-- Name & Email Row -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Name -->
+                <div class="flex flex-col">
+                  <label for="name" class="font-black text-xs md:text-sm uppercase tracking-wider mb-2 text-black">YOUR NAME</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    v-model="form.name" 
+                    placeholder="John Doe"
+                    required
+                    class="w-full border-[3px] border-black px-4 py-3 bg-[#f8f8f8] focus:bg-white focus:outline-none focus:ring-0 font-medium text-black placeholder:text-gray-400 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,0)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                  />
+                </div>
+                
+                <!-- Email -->
+                <div class="flex flex-col">
+                  <label for="email" class="font-black text-xs md:text-sm uppercase tracking-wider mb-2 text-black">YOUR EMAIL</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    v-model="form.email" 
+                    placeholder="john@example.com"
+                    required
+                    class="w-full border-[3px] border-black px-4 py-3 bg-[#f8f8f8] focus:bg-white focus:outline-none focus:ring-0 font-medium text-black placeholder:text-gray-400 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,0)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                  />
+                </div>
+              </div>
+
+              <!-- Subject -->
+              <div class="flex flex-col">
+                <label for="subject" class="font-black text-xs md:text-sm uppercase tracking-wider mb-2 text-black">SUBJECT</label>
+                <input 
+                  type="text" 
+                  id="subject" 
+                  v-model="form.subject" 
+                  placeholder="What's this about?"
+                  required
+                  class="w-full border-[3px] border-black px-4 py-3 bg-[#f8f8f8] focus:bg-white focus:outline-none focus:ring-0 font-medium text-black placeholder:text-gray-400 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,0)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                />
+              </div>
+
+              <!-- Message -->
+              <div class="flex flex-col">
+                <label for="message" class="font-black text-xs md:text-sm uppercase tracking-wider mb-2 text-black">MESSAGE</label>
+                <textarea 
+                  id="message" 
+                  v-model="form.message" 
+                  rows="5"
+                  placeholder="Spill the details..."
+                  required
+                  class="w-full border-[3px] border-black px-4 py-3 bg-[#f8f8f8] focus:bg-white focus:outline-none focus:ring-0 font-medium text-black placeholder:text-gray-400 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,0)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] resize-y"
+                ></textarea>
+              </div>
+
+              <!-- Submit Button -->
+              <NeoButton 
+                type="submit" 
+                :disabled="isSubmitting"
+                color="pink"
+                block
+                class="mt-4"
+              >
+                {{ isSubmitting ? 'SENDING...' : 'SEND MESSAGE' }}
+                <svg v-if="!isSubmitting" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter" class="w-5 h-5 md:w-6 md:h-6">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </NeoButton>
+
+            </form>
+          </div>
+        </div>
+
+        <!-- Right: Other Ways & Socials -->
+        <div 
+          class="w-full lg:w-[40%] xl:w-[35%] flex flex-col gap-6 md:gap-8 mt-8 lg:mt-0 transition-all duration-700 ease-out"
+          :class="rightVisible ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'"
+        >
+          
+          <!-- Other Ways Box -->
+          <div class="bg-[#7c7cf3] border-4 border-black p-6 md:p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-white">
+            <h3 class="font-normal text-2xl md:text-3xl uppercase tracking-widest text-white mb-4" style="font-family: var(--font-heading, inherit);">
+              OTHER WAYS
+            </h3>
+            <p class="font-medium text-sm md:text-base mb-8 leading-relaxed text-white">
+              Hit me up directly via email or find me on social media.
+            </p>
+            <NeoButton to="mailto:mofarhannn@gmail.com" color="white" size="md" block>
+              mofarhannn@gmail.com
+            </NeoButton>
+          </div>
+
+          <!-- Socials Grid -->
+          <div class="grid grid-cols-2 gap-4 md:gap-6">
+            <NeoSocialCard 
+              to="https://wa.me/6285171176995" 
+              icon="simple-icons:whatsapp" 
+              label="WHATSAPP" 
+            />
+            <NeoSocialCard 
+              to="https://github.com/mohamadfarhannn" 
+              icon="simple-icons:github" 
+              label="GITHUB" 
+            />
+            <NeoSocialCard 
+              to="https://www.linkedin.com/in/mohamadfarhannn/" 
+              icon="simple-icons:linkedin" 
+              label="LINKEDIN" 
+              :col-span="2" 
             />
           </div>
-
-          <div class="form-group">
-            <label class="form-label">MESSAGE</label>
-            <textarea
-              v-model="form.message"
-              placeholder="Spill the details..."
-              class="form-textarea"
-              rows="5"
-              required
-            ></textarea>
-          </div>
-
-          <button type="submit" class="submit-btn" :disabled="isSubmitting">
-            {{ isSubmitting ? 'SENDING...' : 'SEND MESSAGE →' }}
-          </button>
-        </form>
-      </div>
-
-      <!-- Right - Other Ways -->
-      <div class="contact-sidebar">
-        <div class="sidebar-card">
-          <h3 class="sidebar-title">OTHER WAYS</h3>
-          <p class="sidebar-desc">
-            Not a fan of forms? Hit me up on social media, or find me lurking on social media.
-          </p>
-          <a href="mailto:hello@mofarhannn.com" class="email-btn">
-            HELLO@MOFARHANNN.COM
-          </a>
-
-          <div class="social-grid">
-            <a href="https://linkedin.com/in/mofarhannn" target="_blank" class="social-card social-card--blue">
-              <span class="social-icon">in</span>
-              <span class="social-name">LINKEDIN</span>
-            </a>
-            <a href="https://github.com/mofarhannn" target="_blank" class="social-card social-card--dark">
-              <span class="social-icon">⌂</span>
-              <span class="social-name">GITHUB</span>
-            </a>
-          </div>
-          <a href="https://twitter.com/mofarhannn" target="_blank" class="social-card social-card--sky social-card--full">
-            <span class="social-icon">𝕏</span>
-            <span class="social-name">TWITTER</span>
-          </a>
         </div>
+
       </div>
     </div>
+
+    <!-- Toast Notification -->
+    <NeoToast 
+      :show="toast.show" 
+      :message="toast.message" 
+      :type="toast.type" 
+    />
   </section>
 </template>
-
-<style scoped>
-.contact {
-  background-color: var(--color-cream);
-}
-
-/* Header */
-.contact-header {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 60px 24px 12px;
-}
-
-.section-title-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 8px;
-}
-
-.section-title-badge {
-  background-color: var(--color-hot-pink);
-  padding: 4px 12px;
-  border: 2px solid var(--color-dark);
-  border-radius: 4px;
-  box-shadow: 2px 2px 0px var(--color-dark);
-}
-
-.badge-text {
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 700;
-  color: white;
-  letter-spacing: 1px;
-}
-
-.section-line {
-  flex: 1;
-  height: 2px;
-  border-top: 2px dashed var(--color-dark);
-}
-
-.section-square {
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-dark);
-  flex-shrink: 0;
-}
-
-.contact-heading {
-  font-family: var(--font-heading);
-  font-size: clamp(40px, 5vw, 56px);
-  color: var(--color-dark);
-  text-transform: uppercase;
-}
-
-/* Content */
-.contact-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px 24px 80px;
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 24px;
-}
-
-/* Form Wrapper */
-.contact-form-wrapper {
-  border: 2px dashed var(--color-dark);
-  border-radius: 12px;
-  padding: 32px;
-  background-color: white;
-}
-
-.contact-intro {
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--color-dark);
-  opacity: 0.75;
-  margin-bottom: 28px;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.form-group {
-  margin-bottom: 16px;
-}
-
-.form-label {
-  display: block;
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: var(--color-dark);
-  margin-bottom: 6px;
-}
-
-.form-input,
-.form-textarea {
-  width: 100%;
-  padding: 12px 14px;
-  font-family: var(--font-body);
-  font-size: 13px;
-  border: 2px solid var(--color-dark);
-  border-radius: 8px;
-  background-color: var(--color-cream);
-  color: var(--color-dark);
-  outline: none;
-  transition: all 0.2s ease;
-}
-
-.form-input:focus,
-.form-textarea:focus {
-  border-color: var(--color-hot-pink);
-  box-shadow: 0 0 0 3px rgba(255, 59, 127, 0.15);
-}
-
-.form-textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.submit-btn {
-  width: 100%;
-  padding: 14px 32px;
-  font-family: var(--font-heading);
-  font-size: 14px;
-  background-color: var(--color-hot-pink);
-  color: white;
-  border: 2px solid var(--color-dark);
-  border-radius: 8px;
-  cursor: pointer;
-  letter-spacing: 1px;
-  box-shadow: 3px 3px 0px var(--color-dark);
-  transition: all 0.2s ease;
-}
-
-.submit-btn:hover:not(:disabled) {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px var(--color-dark);
-}
-
-.submit-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Sidebar */
-.contact-sidebar {
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-card {
-  background: linear-gradient(135deg, var(--color-hot-pink) 0%, var(--color-salmon) 100%);
-  border: 2px solid var(--color-dark);
-  border-radius: 12px;
-  padding: 28px;
-  box-shadow: 4px 4px 0px var(--color-dark);
-  flex: 1;
-}
-
-.sidebar-title {
-  font-family: var(--font-heading);
-  font-size: 20px;
-  color: white;
-  margin-bottom: 8px;
-}
-
-.sidebar-desc {
-  font-size: 13px;
-  line-height: 1.6;
-  color: white;
-  opacity: 0.85;
-  margin-bottom: 16px;
-}
-
-.email-btn {
-  display: inline-block;
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--color-dark);
-  background-color: var(--color-yellow);
-  padding: 8px 16px;
-  border: 2px solid var(--color-dark);
-  border-radius: 6px;
-  text-decoration: none;
-  letter-spacing: 0.5px;
-  box-shadow: 2px 2px 0px var(--color-dark);
-  transition: all 0.2s ease;
-  margin-bottom: 20px;
-}
-
-.email-btn:hover {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0px var(--color-dark);
-}
-
-.social-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.social-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 20px 16px;
-  border: 2px solid var(--color-dark);
-  border-radius: 10px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  box-shadow: 2px 2px 0px var(--color-dark);
-}
-
-.social-card:hover {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0px var(--color-dark);
-}
-
-.social-card--blue {
-  background-color: #0077B5;
-}
-
-.social-card--dark {
-  background-color: var(--color-dark);
-}
-
-.social-card--sky {
-  background-color: #1DA1F2;
-}
-
-.social-card--full {
-  width: 100%;
-}
-
-.social-icon {
-  font-family: var(--font-heading);
-  font-size: 22px;
-  color: white;
-}
-
-.social-name {
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 700;
-  color: white;
-  letter-spacing: 1px;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .contact-content {
-    grid-template-columns: 1fr;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-}
-</style>

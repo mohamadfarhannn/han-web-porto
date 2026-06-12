@@ -26,7 +26,7 @@
       />
       
       <SocialCards 
-        href="https://twitter.com/mofarhannn" 
+        href="https://github.com/mofarhannn" 
         label="TWITTER" 
         icon="i-simple-icons-x" 
         color="#1DA1F2"

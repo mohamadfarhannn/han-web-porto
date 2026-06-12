@@ -13,7 +13,8 @@ useHead({
 <template>
   <div>
     <HomeHeroSection />
-    <HomeSkillsSection />
+    <HomeServicesSection />
+    <HomeTechStackMarquee />
     <HomeWorkSection />
     <HomeContactSection />
   </div>

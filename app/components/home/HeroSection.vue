@@ -1,324 +1,128 @@
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const leftVisible = ref(false)
+const rightVisible = ref(false)
+const rightColumn = ref(null)
+
+let observer = null
+
+onMounted(() => {
+  // Animasi kiri (teks) muncul sesaat setelah dimuat
+  setTimeout(() => {
+    leftVisible.value = true
+  }, 100)
+
+  // Animasi kanan (gambar) muncul jika masuk ke dalam viewport (saat discroll di HP)
+  observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      setTimeout(() => {
+        rightVisible.value = true
+      }, 200)
+      if (rightColumn.value) observer.unobserve(rightColumn.value)
+    }
+  }, { threshold: 0.1 })
+  
+  if (rightColumn.value) {
+    observer.observe(rightColumn.value)
+  } else {
+    rightVisible.value = true
+  }
+})
+
+onUnmounted(() => {
+  if (observer) {
+    observer.disconnect()
+  }
+})
 </script>
 
 <template>
-  <section class="hero">
-    <div class="hero-inner">
-      <!-- Left Content -->
-      <div class="hero-content">
-        <!-- Badge -->
-        <div class="hero-badge-wrapper">
-          <span class="hero-star">★</span>
-          <div class="hero-badge">
-            <span class="badge-dot"></span>
-            FRONTEND DEVELOPER
+  <section class="min-h-screen flex items-center justify-center pt-8 sm:pt-16 xl:pt-4 pb-8 px-4 sm:px-8 lg:px-12 font-sans mb-0">
+    <div class="max-w-300 w-full mx-auto flex flex-col lg:flex-row justify-center items-center gap-16 lg:gap-8">
+      
+      <!-- Left Column -->
+      <div 
+        class="flex flex-col items-start relative z-10 w-full lg:w-[55%] xl:w-[60%] lg:pr-8 xl:pr-12 transition-all duration-1000 ease-out"
+        :class="leftVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'"
+      >
+        
+        <!-- Decorative Star & Badge -->
+        <div class="relative mb-10 ml-6 md:ml-8 mt-10 lg:mt-0">
+          <!-- The Star Icon Graphic -->
+          <div class="absolute -top-10 -left-10 md:-top-14 md:-left-12 w-16 h-16 md:w-20 md:h-20 bg-white border-[3px] border-black rotate-12 flex items-center justify-center z-0 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <svg viewBox="0 0 100 100" class="w-14 h-14 md:w-16 md:h-16">
+              <path d="M50 10 L62 38 L90 50 L62 62 L50 90 L38 62 L10 50 L38 38 Z" fill="#ff9088" stroke="black" stroke-width="5" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          
+          <div class="relative z-10 bg-yellow border-4 border-black px-4 md:px-5 py-2 font-black text-xs md:text-sm tracking-widest uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -rotate-2">
+            JUNIOR WEB DEVELOPER
           </div>
         </div>
 
         <!-- Heading -->
-        <h1 class="hero-heading">
-          I CODE VISUALS
-          <br />
-          THAT POP.
-          <span class="hero-cursor">↘</span>
+        <h1 class="text-[50px] md:text-[60px] lg:text-[70px] xl:text-[80px] font-normal leading-[1.05] md:leading-[0.9] tracking-tighter text-black mb-8 text-center lg:text-left w-full" style="font-family: var(--font-heading, inherit)">
+          <span class="text-[#ff9088]">Hello,</span> I'm
+          <br class="hidden lg:block" />
+          Mohammad
+          <br class="hidden lg:block" />
+          Farhan
         </h1>
 
-        <!-- Description -->
-        <p class="hero-desc">
-          Building energetic, slightly chaotic, but highly professional web experiences. Rejecting the boring corporate web, one bold pixel at a time.
-        </p>
-
-        <!-- CTA Buttons -->
-        <div class="hero-cta">
-          <a href="#work" class="btn btn--outline">
-            VIEW WORK
-          </a>
-          <a href="#contact" class="btn btn--outline">
-            LET'S TALK 👋
-          </a>
+        <!-- Description Box -->
+        <div class="bg-white border-4 border-black p-5 lg:p-6 max-w-full md:max-w-137.5 mb-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative z-10 text-left">
+          <p class="text-base md:text-lg lg:text-xl font-bold leading-relaxed text-black" style="font-family: var(--font-body, inherit);">
+           I specialize in building full-stack web applications using Vue js, React js and Node.js, with a strong focus on responsive interfaces and creating RESTful APIs.
+          </p>
         </div>
+
+        <!-- Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 md:gap-6 w-full sm:w-auto relative z-10">
+          <NeoButton to="#work" color="pink">
+            VIEW WORK
+          </NeoButton>
+          <NeoButton to="#contact" color="white">
+            LET'S TALK
+            <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              <line x1="9" y1="9" x2="15" y2="9"></line>
+              <line x1="9" y1="13" x2="15" y2="13"></line>
+            </svg>
+          </NeoButton>
+        </div>
+
       </div>
 
-      <!-- Right - Avatar -->
-      <div class="hero-visual">
-        <div class="hero-triangle"></div>
-        <div class="hero-avatar-wrapper">
-          <img src="/images/hero-avatar.png" alt="Mofarhannn Avatar" class="hero-avatar" />
-          <div class="hero-label">
-            THAT'S ME →
+      <!-- Right Column (Image/Visuals) -->
+      <div 
+        ref="rightColumn"
+        class="order-1 lg:order-0 relative w-full lg:w-[45%] xl:w-[40%] max-w-60 sm:max-w-xs lg:max-w-80 xl:max-w-100 mx-auto lg:mx-0 mt-4 lg:mt-0 flex justify-center items-center lg:justify-end transition-all duration-1000 ease-out"
+        :class="rightVisible ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'"
+      >
+        
+        <!-- Pink Background Shape -->
+        <div class="absolute w-[110%] h-full bg-[#ff9088] border-[3px] border-black -rotate-6 z-0 -left-6 top-0 hidden sm:block"></div>
+        
+        <!-- Polaroid Frame -->
+        <div class="relative z-10 bg-white border-4 border-black p-4 md:p-5 pb-16 md:pb-20 mb-24 md:mb-0 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] rotate-3 w-full hover:rotate-0 transition-transform duration-300">
+          <!-- Inner image container -->
+          <div class="bg-[#5c5c5c] border-4 border-black relative overflow-hidden aspect-4/5 flex justify-center items-end w-full">
+            <!-- White circle behind avatar -->
+            <div class="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[75%] aspect-square bg-cream rounded-full z-0"></div>
+            
+            <!-- Avatar Image -->
+            <img src="/images/ava-img.webp" alt="Avatar" class="relative z-10 w-[135%] max-w-none h-auto object-cover" />
+          </div>
+          
+          <!-- "HIRE ME!" Sticker -->
+          <div class="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 bg-yellow border-4 border-black px-4 py-2 md:py-3 font-black text-base md:text-xl uppercase shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] -rotate-8 z-20 flex items-center gap-1 hover:scale-110 transition-transform cursor-pointer">
+            LET'S BUILD!! <span class="text-xl md:text-2xl">🚀</span>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Bottom dashed line -->
-    <div class="hero-divider">
-      <span class="divider-square divider-square--left"></span>
-      <span class="divider-square divider-square--right"></span>
+      </div>
+
     </div>
   </section>
 </template>
-
-<style scoped>
-.hero {
-  position: relative;
-  background-color: var(--color-cream);
-  overflow: hidden;
-}
-
-.hero-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 60px 24px 80px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: center;
-}
-
-/* Badge */
-.hero-badge-wrapper {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.hero-star {
-  font-size: 48px;
-  color: var(--color-yellow);
-  animation: spin-slow 8s linear infinite;
-  display: inline-block;
-}
-
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--color-yellow);
-  color: var(--color-dark);
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 6px;
-  letter-spacing: 1px;
-  border: 2px solid var(--color-dark);
-  box-shadow: 2px 2px 0px var(--color-dark);
-}
-
-.badge-dot {
-  width: 8px;
-  height: 8px;
-  background-color: #4CAF50;
-  border-radius: 50%;
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
-}
-
-/* Heading */
-.hero-heading {
-  font-family: var(--font-heading);
-  font-size: clamp(48px, 6vw, 72px);
-  line-height: 1.05;
-  color: var(--color-dark);
-  text-transform: uppercase;
-  margin-bottom: 20px;
-  letter-spacing: -1px;
-}
-
-.hero-cursor {
-  font-size: 0.5em;
-  vertical-align: middle;
-  opacity: 0.5;
-  animation: bounce-arrow 2s ease-in-out infinite;
-}
-
-@keyframes bounce-arrow {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(5px); }
-}
-
-/* Description */
-.hero-desc {
-  font-size: 15px;
-  line-height: 1.7;
-  color: var(--color-dark);
-  opacity: 0.75;
-  max-width: 440px;
-  margin-bottom: 32px;
-  padding: 16px;
-  border: 2px dashed var(--color-dark);
-  border-radius: 8px;
-  background-color: white;
-}
-
-/* CTA */
-.hero-cta {
-  display: flex;
-  gap: 12px;
-}
-
-.btn {
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  letter-spacing: 0.5px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  text-transform: uppercase;
-}
-
-.btn--outline {
-  background-color: white;
-  color: var(--color-dark);
-  border: 2px solid var(--color-dark);
-  box-shadow: 3px 3px 0px var(--color-dark);
-}
-
-.btn--outline:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px var(--color-dark);
-}
-
-/* Visual / Avatar */
-.hero-visual {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 420px;
-}
-
-.hero-triangle {
-  position: absolute;
-  top: 0;
-  right: -40px;
-  width: 0;
-  height: 0;
-  border-left: 250px solid transparent;
-  border-right: 250px solid transparent;
-  border-bottom: 500px solid var(--color-hot-pink);
-  transform: rotate(-10deg);
-  z-index: 0;
-}
-
-.hero-avatar-wrapper {
-  position: relative;
-  z-index: 1;
-}
-
-.hero-avatar {
-  width: 320px;
-  height: auto;
-  border-radius: 0 0 160px 160px;
-  filter: grayscale(100%) contrast(1.1);
-  border: 3px solid var(--color-dark);
-  background: white;
-}
-
-.hero-label {
-  position: absolute;
-  bottom: 20px;
-  right: -60px;
-  background-color: var(--color-yellow);
-  color: var(--color-dark);
-  font-family: var(--font-heading);
-  font-size: 11px;
-  padding: 6px 12px;
-  border: 2px solid var(--color-dark);
-  border-radius: 4px;
-  box-shadow: 2px 2px 0px var(--color-dark);
-  white-space: nowrap;
-  transform: rotate(3deg);
-  animation: subtle-float 3s ease-in-out infinite;
-}
-
-@keyframes subtle-float {
-  0%, 100% { transform: rotate(3deg) translateY(0); }
-  50% { transform: rotate(3deg) translateY(-5px); }
-}
-
-/* Divider */
-.hero-divider {
-  position: relative;
-  border-top: 2px dashed var(--color-dark);
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.divider-square {
-  position: absolute;
-  top: -5px;
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-dark);
-}
-
-.divider-square--left {
-  left: 0;
-}
-
-.divider-square--right {
-  right: 0;
-}
-
-/* Mobile */
-@media (max-width: 900px) {
-  .hero-inner {
-    grid-template-columns: 1fr;
-    text-align: center;
-    padding: 40px 24px 60px;
-  }
-
-  .hero-content {
-    order: 2;
-  }
-
-  .hero-visual {
-    order: 1;
-    min-height: 300px;
-  }
-
-  .hero-badge-wrapper {
-    justify-content: center;
-  }
-
-  .hero-desc {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .hero-cta {
-    justify-content: center;
-  }
-
-  .hero-triangle {
-    right: -100px;
-    border-left: 180px solid transparent;
-    border-right: 180px solid transparent;
-    border-bottom: 360px solid var(--color-hot-pink);
-  }
-
-  .hero-avatar {
-    width: 250px;
-  }
-
-  .hero-label {
-    right: -20px;
-  }
-}
-</style>
