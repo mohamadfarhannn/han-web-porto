@@ -35,7 +35,7 @@ const labelSizes = {
   <a 
     :href="href" 
     target="_blank" 
-    class="flex flex-col items-center border-2 border-dark rounded-[10px] shadow-[2px_2px_0px_var(--color-dark)] transition-all duration-200 hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_var(--color-dark)] text-white no-underline"
+    class="flex flex-col items-center border-2 border-dark rounded-[10px] shadow-[2px_2px_0px_var(--color-dark)] transition-all duration-200 hover:translate-x-px hover:translate-y-px hover:shadow-[1px_1px_0px_var(--color-dark)] text-white no-underline"
     :class="[sizeClasses[size]]"
     :style="{ backgroundColor: color }"
   >

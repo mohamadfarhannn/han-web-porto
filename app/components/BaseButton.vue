@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const variants = {
   primary: 'bg-hot-pink text-white',
-  secondary: 'bg-[#ef3e66] text-white',
+  secondary: 'bg-[#ff9088] text-dark',
   yellow: 'bg-[#FFCC47] text-dark'
 }
 
