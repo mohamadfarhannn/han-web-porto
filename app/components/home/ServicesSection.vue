@@ -1,9 +1,50 @@
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const sectionRef = ref(null)
+const headerVisible = ref(false)
+const box1Visible = ref(false)
+const box2Visible = ref(false)
+const box3Visible = ref(false)
+
+let observer = null
+
+onMounted(() => {
+  observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      setTimeout(() => { headerVisible.value = true }, 100)
+      setTimeout(() => { box1Visible.value = true }, 300)
+      setTimeout(() => { box2Visible.value = true }, 500)
+      setTimeout(() => { box3Visible.value = true }, 700)
+      
+      if (sectionRef.value) observer.unobserve(sectionRef.value)
+    }
+  }, { threshold: 0.1 })
+  
+  if (sectionRef.value) {
+    observer.observe(sectionRef.value)
+  } else {
+    headerVisible.value = true
+    box1Visible.value = true
+    box2Visible.value = true
+    box3Visible.value = true
+  }
+})
+
+onUnmounted(() => {
+  if (observer) observer.disconnect()
+})
+</script>
+
 <template>
-  <section class="py-20 px-4 sm:px-8 lg:px-12 pt-34 overflow-hidden font-sans bg-amber-100">
+  <section ref="sectionRef" class="py-20 px-4 sm:px-8 lg:px-12 pt-34 overflow-hidden font-sans bg-amber-100">
     <div class="max-w-300 w-full mx-auto">
       
       <!-- Header Section -->
-      <div class="flex items-center mb-16 md:mb-20 w-full">
+      <div 
+        class="flex items-center mb-16 md:mb-20 w-full transition-all duration-700 ease-out"
+        :class="headerVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'"
+      >
         <!-- Title Box -->
         <div class="relative z-10 bg-yellow border-4 border-black px-6 md:px-8 py-3 md:py-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] -rotate-2 shrink-0">
           <h2 class="font-normal text-lg sm:text-xl md:text-2xl uppercase tracking-widest text-black" style="font-family: var(--font-heading, inherit);">
@@ -27,7 +68,10 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-10">
         
         <!-- Service 1: Frontend -->
-        <div class="bg-cream border-4 border-black p-6 md:p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] rotate-2 hover:rotate-0 hover:-translate-y-2 transition-all duration-300 flex flex-col h-full">
+        <div 
+          class="bg-cream border-4 border-black p-6 md:p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:rotate-0 hover:-translate-y-2 transition-all duration-300 flex flex-col h-full"
+          :class="box1Visible ? 'translate-y-0 opacity-100 rotate-2' : 'translate-y-24 opacity-0 rotate-0'"
+        >
           <!-- Icon Box -->
           <div class="bg-[#ff9088] border-[3px] border-black w-14 h-14 md:w-16 md:h-16 flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rotate-[-4deg] mb-8 shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter" class="w-7 h-7 md:w-9 md:h-9">
@@ -45,7 +89,10 @@
         </div>
 
         <!-- Service 2: Backend -->
-        <div class="bg-cream border-4 border-black p-6 md:p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] -rotate-2 hover:rotate-0 hover:-translate-y-2 transition-all duration-300 flex flex-col h-full mt-4 md:mt-0">
+        <div 
+          class="bg-cream border-4 border-black p-6 md:p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:rotate-0 hover:-translate-y-2 transition-all duration-300 flex flex-col h-full mt-4 md:mt-0"
+          :class="box2Visible ? 'translate-y-0 opacity-100 -rotate-2' : 'translate-y-24 opacity-0 rotate-0'"
+        >
           <!-- Icon Box -->
           <div class="bg-[#aaaaff] border-[3px] border-black w-14 h-14 md:w-16 md:h-16 flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rotate-[4deg] mb-8 shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter" class="w-7 h-7 md:w-9 md:h-9">
@@ -64,7 +111,10 @@
         </div>
 
         <!-- Service 3: Full Stack -->
-        <div class="bg-cream border-4 border-black p-6 md:p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] rotate-3 hover:rotate-0 hover:-translate-y-2 transition-all duration-300 flex flex-col h-full mt-4 md:mt-0">
+        <div 
+          class="bg-cream border-4 border-black p-6 md:p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:rotate-0 hover:-translate-y-2 transition-all duration-300 flex flex-col h-full mt-4 md:mt-0"
+          :class="box3Visible ? 'translate-y-0 opacity-100 rotate-3' : 'translate-y-24 opacity-0 rotate-0'"
+        >
           <!-- Icon Box -->
           <div class="bg-[#5ae2c7] border-[3px] border-black w-14 h-14 md:w-16 md:h-16 flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -rotate-3 mb-8 shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter" class="w-7 h-7 md:w-9 md:h-9">
@@ -88,6 +138,4 @@
   </section>
 </template>
 
-<script setup>
-// Neo-Brutalism Services Section
-</script>
+
