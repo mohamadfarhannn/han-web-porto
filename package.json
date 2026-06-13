@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@nuxt/content": "^3.12.0",
     "@nuxt/eslint": "^1.15.2",
     "@nuxt/icon": "^2.2.2",

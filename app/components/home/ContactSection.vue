@@ -1,11 +1,15 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import emailjs from '@emailjs/browser'
+
+const config = useRuntimeConfig()
 
 const form = ref({
   name: '',
   email: '',
   subject: '',
   message: '',
+  honeypot: '',
 })
 
 const isSubmitting = ref(false)
@@ -23,14 +27,56 @@ const showToast = (message, type = 'success') => {
   }, 3000)
 }
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
+  // 1. Honeypot check (Silently ignore if filled by bot to fool them)
+  if (form.value.honeypot) {
+    isSubmitting.value = true
+    setTimeout(() => {
+      isSubmitting.value = false
+      form.value = { name: '', email: '', subject: '', message: '', honeypot: '' }
+      showToast('Message sent! I will get back to you soon.', 'success')
+    }, 1000)
+    return
+  }
+
+  // 2. Cooldown check (30 minute = 1800000 ms)
+  const lastSent = localStorage.getItem('last_email_sent')
+  const cooldownTime = 30 * 60 * 1000 // 30 menit dalam milidetik
+  
+  if (lastSent && (Date.now() - parseInt(lastSent)) < cooldownTime) {
+    showToast('Tunggu 30 menit sebelum mengirim pesan lagi.', 'error')
+    return
+  }
+
   isSubmitting.value = true
-  // Simulate submission
-  setTimeout(() => {
+  
+  try {
+    // Parameter: (Service ID, Template ID, Data Object, Public Key)
+    await emailjs.send(
+      config.public.emailjsServiceId, 
+      config.public.emailjsTemplateId, 
+      {
+        from_name: form.value.name,
+        reply_to: form.value.email, // Memastikan Anda bisa langsung membalas email pengunjung
+        subject: form.value.subject,
+        message: form.value.message,
+      },
+      config.public.emailjsPublicKey
+    )
+    
+    // Set timestamp for cooldown setelah berhasil
+    localStorage.setItem('last_email_sent', Date.now().toString())
+    
+    // Reset form setelah berhasil
+    form.value = { name: '', email: '', subject: '', message: '', honeypot: '' }
+    showToast('Message sent! I will get back to you soon.', 'success')
+    
+  } catch (error) {
+    console.error('EmailJS Error:', error)
+    showToast('Failed to send message. Please try again later.', 'error')
+  } finally {
     isSubmitting.value = false
-    form.value = { name: '', email: '', subject: '', message: '' }
-    showToast('Message sent!', 'success')
-  }, 1500)
+  }
 }
 
 const sectionRef = ref(null)
@@ -115,6 +161,19 @@ onUnmounted(() => {
 
             <form @submit.prevent="handleSubmit" class="flex flex-col gap-6">
               
+              <!-- Honeypot Field (Hidden from normal users) -->
+              <div class="absolute opacity-0 -z-10 w-0 h-0 overflow-hidden" aria-hidden="true">
+                <label for="website">Leave this field empty</label>
+                <input 
+                  type="text" 
+                  id="website" 
+                  name="website" 
+                  v-model="form.honeypot" 
+                  tabindex="-1" 
+                  autocomplete="off" 
+                />
+              </div>
+
               <!-- Name & Email Row -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Name -->
